@@ -4,20 +4,26 @@ import { CartProvider } from './context/CartContext'
 import App from './App'
 import './index.css'
 
-// Plasmic Studio loads this route in an iframe; kept out of the shop bundle.
+// Plasmic code is lazy so shoppers on "/" never download it unless configured.
 const PlasmicHost = lazy(() => import('./plasmic/PlasmicHost'))
-const isPlasmicHost = window.location.pathname.replace(/\/$/, '') === '/plasmic-host'
+const PlasmicPage = lazy(() => import('./plasmic/PlasmicPage'))
+const path = window.location.pathname.replace(/\/+$/, '') || '/'
+
+// "/" = the shop, "/plasmic-host" = Plasmic Studio's canvas host,
+// anything else = a page marketing built in Plasmic.
+function Route() {
+  if (path === '/') return <App />
+  return (
+    <Suspense fallback={null}>
+      {path === '/plasmic-host' ? <PlasmicHost /> : <PlasmicPage path={path} />}
+    </Suspense>
+  )
+}
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <CartProvider>
-      {isPlasmicHost ? (
-        <Suspense fallback={null}>
-          <PlasmicHost />
-        </Suspense>
-      ) : (
-        <App />
-      )}
+      <Route />
     </CartProvider>
   </StrictMode>,
 )

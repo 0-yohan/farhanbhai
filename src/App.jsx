@@ -8,10 +8,12 @@ import CartDrawer from './components/CartDrawer'
 import Checkout from './components/Checkout'
 import Jumpscare from './components/Jumpscare'
 import Reveal from './components/Reveal'
+import ShopFooter from './components/ShopFooter'
 
-// Marketing-editable area (Plasmic). Only loaded when Plasmic is configured.
+// Marketing-editable homepage (Plasmic). Only loaded when Plasmic is configured;
+// the layout below is the fallback until a "HomepageContent" component is published.
 const hasPlasmic = Boolean(import.meta.env.VITE_PLASMIC_PROJECT_ID && import.meta.env.VITE_PLASMIC_PUBLIC_TOKEN)
-const HomeBanner = hasPlasmic ? lazy(() => import('./plasmic/HomeBanner')) : null
+const HomepageContent = hasPlasmic ? lazy(() => import('./plasmic/HomepageContent')) : null
 
 // gate → shop → checkout → scare → reveal
 export default function App() {
@@ -35,17 +37,24 @@ export default function App() {
   if (stage === 'scare') return <Jumpscare onDone={toReveal} />
   if (stage === 'reveal') return <Reveal onReset={reset} />
 
+  const shop = (
+    <>
+      <Header onOpenCart={() => setCartOpen(true)} />
+      <ProductGrid onBuyNow={startCheckout} />
+      <ShopFooter />
+    </>
+  )
+
   return (
     <ShopActionsContext.Provider value={{ onBuyNow: startCheckout, onOpenCart: () => setCartOpen(true) }}>
-      <Header onOpenCart={() => setCartOpen(true)} />
-      {HomeBanner && (
+      {HomepageContent ? (
         <Suspense fallback={null}>
-          <HomeBanner />
+          <HomepageContent fallback={shop} />
         </Suspense>
+      ) : (
+        shop
       )}
-      <ProductGrid onBuyNow={startCheckout} />
       <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} onCheckout={startCheckout} />
-      <footer className="footer">Parody website · 100% candy · No real products or payments · Happy Halloween 🎃</footer>
     </ShopActionsContext.Provider>
   )
 }

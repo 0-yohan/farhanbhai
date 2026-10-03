@@ -5,7 +5,11 @@
 // reading published content). Never put a Plasmic *secret* token here.
 import { initPlasmicLoader } from '@plasmicapp/loader-react'
 import { products } from '../data/products'
-import Header from '../components/Header'
+import { DEFAULT_TAGLINE, DEFAULT_TICKER } from '../components/Header'
+import { DEFAULT_HEADING, DEFAULT_SUBHEADING } from '../components/ProductGrid'
+import { DEFAULT_TEXT } from '../components/ShopFooter'
+import HeaderBlock from './HeaderBlock'
+import ShopFooterBlock from './ShopFooterBlock'
 import ProductCardBlock from './ProductCardBlock'
 import ProductGridBlock from './ProductGridBlock'
 
@@ -24,11 +28,28 @@ export const PLASMIC = initPlasmicLoader({
   preview: import.meta.env.VITE_PLASMIC_PREVIEW === 'true',
 })
 
-PLASMIC.registerComponent(Header, {
+PLASMIC.registerComponent(HeaderBlock, {
   name: 'ShopHeader',
   displayName: 'Shop Header',
   description: 'The site header with logo, tagline, ticker and bag button.',
-  props: {},
+  props: {
+    tagline: { type: 'string', displayName: 'Tagline', defaultValue: DEFAULT_TAGLINE },
+    tickerText: {
+      type: 'string',
+      displayName: 'Ticker text',
+      description: 'Scrolling text under the header.',
+      defaultValue: DEFAULT_TICKER,
+    },
+  },
+})
+
+PLASMIC.registerComponent(ShopFooterBlock, {
+  name: 'ShopFooter',
+  displayName: 'Shop Footer',
+  description: 'The site footer line.',
+  props: {
+    text: { type: 'string', displayName: 'Text', defaultValue: DEFAULT_TEXT },
+  },
 })
 
 PLASMIC.registerComponent(ProductCardBlock, {
@@ -48,6 +69,9 @@ PLASMIC.registerComponent(ProductCardBlock, {
 PLASMIC.registerComponent(ProductGridBlock, {
   name: 'ProductGrid',
   displayName: 'Product Grid',
-  description: 'The full "Today\'s Stash" product grid.',
-  props: {},
+  description: 'The full product grid with its heading.',
+  props: {
+    heading: { type: 'string', displayName: 'Heading', defaultValue: DEFAULT_HEADING },
+    subheading: { type: 'string', displayName: 'Subheading', defaultValue: DEFAULT_SUBHEADING },
+  },
 })
