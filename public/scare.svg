@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <radialGradient id="skin" cx="50%" cy="40%" r="60%">
+      <stop offset="0" stop-color="#e8e2d0"/>
+      <stop offset=".6" stop-color="#9c9580"/>
+      <stop offset="1" stop-color="#2a2620"/>
+    </radialGradient>
+    <radialGradient id="eye" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#ff1a1a"/>
+      <stop offset=".25" stop-color="#7a0000"/>
+      <stop offset=".6" stop-color="#000"/>
+    </radialGradient>
+    <filter id="rough"><feTurbulence baseFrequency=".04" numOctaves="3" seed="7"/><feDisplacementMap in="SourceGraphic" scale="14"/></filter>
+  </defs>
+  <rect width="400" height="500" fill="#000"/>
+  <g filter="url(#rough)">
+    <ellipse cx="200" cy="240" rx="165" ry="215" fill="url(#skin)"/>
+    <!-- hollow eyes -->
+    <ellipse cx="128" cy="200" rx="52" ry="62" fill="url(#eye)" transform="rotate(-12 128 200)"/>
+    <ellipse cx="272" cy="200" rx="52" ry="62" fill="url(#eye)" transform="rotate(12 272 200)"/>
+    <circle cx="132" cy="205" r="7" fill="#fff"/>
+    <circle cx="268" cy="205" r="7" fill="#fff"/>
+    <!-- nose -->
+    <path d="M190 270 L200 245 L210 270 Z" fill="#111"/>
+    <!-- screaming mouth -->
+    <ellipse cx="200" cy="360" rx="78" ry="88" fill="#0a0000"/>
+    <ellipse cx="200" cy="370" rx="48" ry="60" fill="#3a0000"/>
+    <path d="M125 320 L140 345 L152 318 L165 348 L178 316 L190 350 L200 314 L210 350 L222 316 L235 348 L248 318 L260 345 L275 320" fill="#efe9d8"/>
+    <path d="M135 410 L150 385 L162 412 L176 382 L190 414 L200 380 L210 414 L224 382 L238 412 L250 385 L265 410" fill="#efe9d8"/>
+  </g>
+  <!-- blood drips -->
+  <g fill="#8a0000">
+    <path d="M118 255 q4 40 0 80 q-6 8 -10 0 q-2 -40 4 -80 Z"/>
+    <path d="M282 255 q5 55 2 110 q-6 9 -11 0 q-2 -55 3 -110 Z"/>
+    <path d="M160 440 q3 25 0 45 q-5 6 -8 0 q-1 -25 2 -45 Z"/>
+    <path d="M238 440 q3 30 0 55 q-5 6 -8 0 q-1 -30 2 -55 Z"/>
+  </g>
+</svg>
